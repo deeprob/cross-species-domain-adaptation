@@ -33,7 +33,7 @@ UMAP_COV_FILE="$ROOT/raw_data/${genome}/k36.umap.windows_gt0.8cov.bed"
 
 echo "Using genome ${genome} and TF ${tf}."
 
-"Making TF labels..."
+echo "Making TF labels..."
 ./_make_tf_labels.sh "$ROOT" "$genome" "$tf"
 
 # output of the script above
@@ -57,6 +57,9 @@ if [ ! -s "$DATA_DIR/all.noBL.tmp.all" ]; then
 fi
 
 bedtools intersect -a "$DATA_DIR/all.noBL.tmp.all" -b "$UMAP_COV_FILE" -f 1 -wa > "$DATA_DIR/all.noUM.tmp.all"
+
+echo $DATA_DIR
+
 if [ ! -s "$DATA_DIR/all.noUM.tmp.all" ]; then
   echo "Error: failed at umap intersect command."
   exit 1
@@ -71,8 +74,8 @@ if [ ! -s "$DATA_DIR/all.all" ]; then
   exit 1
 fi
 
-# cleanup -- delete tmp files
-rm "$DATA_DIR/all.bedsort.tmp.all" "$DATA_DIR/all.noBL.tmp.all" "$DATA_DIR/all.noUM.tmp.all" "$tf_labels_file" "$WINDOWS_FILE"
+# cleanup -- delete tmp files (only those which are related to this particular tf)
+rm "$DATA_DIR/all.bedsort.tmp.all" "$DATA_DIR/all.noBL.tmp.all" "$DATA_DIR/all.noUM.tmp.all" "$tf_labels_file" # windows bed file cannot be deleted at this point, required for next loop iteration
 
 lines=$(wc -l < "$DATA_DIR/all.all")
 

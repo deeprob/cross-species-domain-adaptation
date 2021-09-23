@@ -28,7 +28,9 @@ overlap=0.5
 DATA_DIR="$ROOT/raw_data"
 multiGPS_out_dir="$DATA_DIR/${genome}/${tf}"
 genome_windows_file="$DATA_DIR/${genome}/windows.bed"  # output from make_windows_files.sh
-peak_call_file="$multiGPS_out_dir/mgps_out_${tf}.bed"  # output from MultiGPS
+peak_call_file="$multiGPS_out_dir/mgps_out/mgps_out_${tf}.bed"  # output from MultiGPS
+
+echo $peak_call_file
 
 if [[ ! -f "$peak_call_file" ]]; then
   echo "Error: output file from multiGPS cannot be found." && exit 1
